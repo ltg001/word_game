@@ -300,6 +300,78 @@ void sql_ops::load_question_item( QListWidget *item ) {
     }
 }
 
+bool comp( QPair<int, QString> lhs, QPair<int, QString> rhs ) {
+    if ( lhs.first == rhs.first ) return lhs.second < rhs.second;
+    return lhs.first > rhs.first;
+}
+
+void sql_ops::get_rank( QListWidget *player, QListWidget *setter ) {
+    QQueue<QPair<int, QString>> player_list;
+    QQueue<QPair<int, QString>> setter_list;
+
+    if ( connect() ) {
+        QSqlQuery query;
+        if ( query.exec( "select * from user_info" ) ) {
+            while ( query.next() ) {
+                if ( query.value( 2 ).toInt() == 0 ) {
+                    player_list.append(
+                        qMakePair( query.value( 5 ).toInt(),
+                                   query.value( 0 ).toString() ) );
+                } else {
+                    setter_list.append(
+                        qMakePair( query.value( 5 ).toInt(),
+                                   query.value( 0 ).toString() ) );
+                }
+            }
+        } else
+            qDebug() << "[get rank] " << query.lastError().text();
+
+        if ( !player_list.empty() )
+            qSort( player_list.begin(), player_list.end(), comp );
+        if ( !setter_list.empty() )
+            qSort( setter_list.begin(), setter_list.end(), comp );
+
+        int player_index = 1, setter_index = 1;
+
+        while ( !player_list.empty() ) {
+            player->addItem( new QListWidgetItem(
+                QString( "rank: %1, username: %2, solved_problems: %3" )
+                    .arg( player_index )
+                    .arg( player_list.front().second )
+                    .arg( player_list.front().first ) ) );
+            player_list.pop_front();
+            player_index += 1;
+        }
+
+        while ( !setter_list.empty() ) {
+            setter->addItem( new QListWidgetItem(
+                QString( "rank: %1, username: %2, set_problems: %3" )
+                    .arg( setter_index )
+                    .arg( setter_list.front().second )
+                    .arg( setter_list.front().first ) ) );
+            setter_list.pop_front();
+            setter_index += 1;
+        }
+    }
+}
+
+// QQueue<QPair<int, QString>> *sql_ops::get_rank() {
+//    QQueue<QPair<int, QString>> *ans = new QQueue<QPair<int, QString>>;
+//    if ( connect() ) {
+//        QSqlQuery query;
+//        if ( query.exec( "select * from user_info" ) ) {
+//            while ( query.next() ) {
+//                int     count    = query.value( 5 ).toInt();
+//                QString username = query.value( 0 ).toString();
+//                ans->append( qMakePair( count, username ) );
+//            }
+//        } else
+//            qDebug() << "[get rank] " << query.lastError().text();
+//    }
+//    if ( !ans->empty() ) qSort( ans->begin(), ans->end(), comp );
+//    return ans;
+//}
+
 QString encrypt( const QString s ) { return s; }
 
 QString decrypt( const QString s ) { return s; }

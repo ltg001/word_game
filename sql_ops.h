@@ -10,6 +10,7 @@ class sql_ops {
     QSqlDatabase info;
     bool         connect();
     bool         can_use_this_name( QString username );
+    // bool         comp( QPair<int, QString> lhs, QPair<int, QString> rhs );
 
   public:
     sql_ops();
@@ -25,6 +26,7 @@ class sql_ops {
     bool    reset_pwd( QString username, int level, int exp, int count,
                        QString new_pwd );
     void    load_question_item( QListWidget *item );
+    void    get_rank( QListWidget *player, QListWidget *setter );
 };
 
 QString encrypt( const QString s );
