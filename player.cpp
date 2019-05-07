@@ -18,6 +18,7 @@ Player::~Player() { delete ui; }
 
 void Player::on_game_clicked() {
     // int current_level = 1;
+    bonus            = 2;
     QString question = database->get_question( level );
 
     if ( question == "-1" ) {
@@ -27,8 +28,9 @@ void Player::on_game_clicked() {
     }
 
     game G;
-    G.start_game( question, get_level( question ) );
+    G.start_game( question, get_level( question ), this );
     if ( G.exec() == QDialog::Accepted ) {
+        qDebug() << "[bonus] " << bonus;
         check_levelup();
         database->save_person( username, pwd, level, exp, count, nickname );
         update();
@@ -43,7 +45,15 @@ void Player::update() {
     ui->count->setText( QString::number( this->count ) );
 }
 
+void Player::get_bonus() {
+    if ( bonus == 0 )
+        return;
+    else
+        bonus--;
+}
+
 void Player::check_levelup() {
+    exp += bonus;
     exp += 1;
     int temp = level;
     level += exp / ( 2 * level + 1 );

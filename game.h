@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "include.h"
+#include "player.h"
 
 namespace Ui {
 class game;
@@ -14,7 +15,7 @@ class game : public QDialog {
     explicit game( QWidget *parent = 0 );
     // void get_content(QString _s);
     ~game();
-    void start_game( const QString _s, int level );
+    void start_game( const QString _s, int level, Player *p );
 
   private slots:
     void on_cancelBtn_clicked();

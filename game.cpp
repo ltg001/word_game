@@ -15,13 +15,17 @@ void game::set_text( const QString _s ) { ui->question->setText( _s ); }
 
 void game::cancel_context() { ui->question->setText( "" ); }
 
-void game::start_game( const QString _s, int level ) {
+void game::start_game( const QString _s, int level, Player *p ) {
     this->set_text( _s );
     QTimer::singleShot( 1000 * ( 6 - level ), this, SLOT( cancel_context() ) );
 
     QTimer *update_left_time = new QTimer( this );
     connect( update_left_time, SIGNAL( timeout() ), this, SLOT( update() ) );
     update_left_time->start( 1000 );
+
+    QTimer *bonus_timer = new QTimer( this );
+    connect( bonus_timer, SIGNAL( timeout() ), p, SLOT( get_bonus() ) );
+    bonus_timer->start( 500 * ( 6 - level ) );
 
     ui->left_time->display( 6 - level );
     left_time = 6 - level;
