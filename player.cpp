@@ -12,29 +12,65 @@ Player::Player( QWidget *parent )
     ui->setupUi( this );
     update();
     qDebug() << "[test Player]" << this->count << " " << this->username;
+    last_failed = "";
 }
 
 Player::~Player() { delete ui; }
 
 void Player::on_game_clicked() {
     // int current_level = 1;
-    bonus            = 2;
-    QString question = database->get_question( level );
+    //    bonus            = 2;
+    //    QString question = database->get_question( level );
 
-    if ( question == "-1" ) {
-        QMessageBox::warning( this, "no question",
-                              "there is no question for this level" );
-        return;
-    }
+    //    if ( question == "-1" ) {
+    //        QMessageBox::warning( this, "no question",
+    //                              "there is no question for this level" );
+    //        return;
+    //    }
 
-    game G;
-    G.start_game( question, get_level( question ), this );
-    if ( G.exec() == QDialog::Accepted ) {
+    //    game G;
+    //    G.start_game( question, get_level( question ), this );
+    //    if ( G.exec() == QDialog::Accepted ) {
+    //        qDebug() << "[bonus] " << bonus;
+    //        check_levelup( get_level( question ) );
+    //        database->save_person( username, pwd, level, exp, count, nickname
+    //        ); update();
+    //    }
+
+    bonus = 10;
+    if ( play_game() ) {
         qDebug() << "[bonus] " << bonus;
-        check_levelup( get_level( question ) );
+        check_levelup( level );
         database->save_person( username, pwd, level, exp, count, nickname );
         update();
+    } else
+        QMessageBox::warning( this, "game failed", "game failed" );
+}
+
+bool Player::play_game() {
+    for ( int i = 0; i < level; i++ ) {
+        game G;
+        if ( last_failed == "" ) {
+            QString question = database->get_question( level );
+            qDebug() << "[get question]" << question;
+            if ( question == "-1" ) {
+                QMessageBox::warning( this, "no question",
+                                      "there is no question for this level" );
+                return false;
+            } else {
+                last_failed = question;
+                G.start_game( question, get_level( question ), this );
+            }
+        } else {
+            qDebug() << "[last failed] " << last_failed;
+            G.start_game( last_failed, get_level( last_failed ), this );
+        }
+        if ( G.exec() == QDialog::Accepted )
+            last_failed = "";
+        else
+            return false;
     }
+    return true;
 }
 
 void Player::update() {
@@ -52,9 +88,9 @@ void Player::get_bonus() {
         bonus--;
 }
 
-void Player::check_levelup( int question_level ) {
+void Player::check_levelup( int temp_level ) {
     exp += bonus;
-    exp += question_level;
+    exp += temp_level;
     int temp = level;
     level += exp / ( 2 * level + 1 );
     exp %= 2 * temp + 1;
