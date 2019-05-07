@@ -11,22 +11,22 @@ class Setter;
 class Setter : public QDialog, public Person {
     Q_OBJECT
 
-public:
-    explicit Setter(QWidget *parent = 0);
+  public:
+    explicit Setter( QWidget *parent = 0 );
     ~Setter();
     void update();
 
-private slots:
+  private slots:
     void on_question_clicked();
 
     void on_submit_clicked();
 
     void on_change_clicked();
 
-private:
+  private:
     Ui::Setter *ui;
-    //int get_level(QString s);
-
+    void        check_levelup( int question_level );
+    // int get_level(QString s);
 };
 
 #endif // SETTER_H

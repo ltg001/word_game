@@ -31,7 +31,7 @@ void Player::on_game_clicked() {
     G.start_game( question, get_level( question ), this );
     if ( G.exec() == QDialog::Accepted ) {
         qDebug() << "[bonus] " << bonus;
-        check_levelup();
+        check_levelup( get_level( question ) );
         database->save_person( username, pwd, level, exp, count, nickname );
         update();
     }
@@ -52,9 +52,9 @@ void Player::get_bonus() {
         bonus--;
 }
 
-void Player::check_levelup() {
+void Player::check_levelup( int question_level ) {
     exp += bonus;
-    exp += 1;
+    exp += question_level;
     int temp = level;
     level += exp / ( 2 * level + 1 );
     exp %= 2 * temp + 1;

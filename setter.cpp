@@ -5,33 +5,36 @@
 
 extern sql_ops *database;
 
-Setter::Setter(QWidget *parent) : QDialog(parent), ui(new Ui::Setter) {
-  ui->setupUi(this);
-  update();
+Setter::Setter( QWidget *parent )
+    : QDialog( parent )
+    , ui( new Ui::Setter ) {
+    ui->setupUi( this );
+    update();
 }
 
 Setter::~Setter() { delete ui; }
 
 void Setter::on_question_clicked() {
-  View_all_question v;
-  v.exec();
-  return;
+    View_all_question v;
+    v.exec();
+    return;
 }
 
 void Setter::on_submit_clicked() {
-  QString question = ui->question_edit->text();
-  if (database->add_question(question, get_level(question), username)) {
-    QMessageBox::warning(this, "insert successful", "insert successful");
-    count++;
-    ui->question_edit->clear();
-  } else {
-    QMessageBox::warning(this, "insert failed", "insert failed");
-    qDebug() << "[insert question error]";
-    ui->question_edit->clear();
-    ui->question_edit->setFocus();
-  }
-  database->save_person(username, pwd, level, exp, count, nickname);
-  update();
+    QString question = ui->question_edit->text();
+    if ( database->add_question( question, get_level( question ), username ) ) {
+        QMessageBox::warning( this, "insert successful", "insert successful" );
+        count++;
+        check_levelup( get_level( question ) );
+        ui->question_edit->clear();
+    } else {
+        QMessageBox::warning( this, "insert failed", "insert failed" );
+        qDebug() << "[insert question error]";
+        ui->question_edit->clear();
+        ui->question_edit->setFocus();
+    }
+    database->save_person( username, pwd, level, exp, count, nickname );
+    update();
 }
 
 // int Setter::get_level(QString s) {
@@ -48,18 +51,26 @@ void Setter::on_submit_clicked() {
 //}
 
 void Setter::update() {
-  ui->username_edit->setText(username);
-  ui->nickname_edit->setText(nickname);
-  ui->exp_edit->setText(QString::number(exp));
-  ui->level_edit->setText(QString::number(level));
-  ui->question_num->setText(QString::number(count));
+    ui->username_edit->setText( username );
+    ui->nickname_edit->setText( nickname );
+    ui->exp_edit->setText( QString::number( exp ) );
+    ui->level_edit->setText( QString::number( level ) );
+    ui->question_num->setText( QString::number( count ) );
 }
 
 void Setter::on_change_clicked() {
-  if (ui->nickname_2->text() == "")
-    return;
-  nickname = ui->nickname_2->text();
-  ui->nickname_2->clear();
-  database->save_person(username, pwd, level, exp, count, nickname);
-  update();
+    if ( ui->nickname_2->text() == "" ) return;
+    nickname = ui->nickname_2->text();
+    ui->nickname_2->clear();
+    database->save_person( username, pwd, level, exp, count, nickname );
+    update();
+}
+
+void Setter::check_levelup( int question_level ) {
+    exp += question_level;
+    int temp = level;
+    level += exp / ( 2 * level + 1 );
+    exp %= 2 * temp + 1;
+    count += 1;
+    qDebug() << "[setter] " << exp;
 }

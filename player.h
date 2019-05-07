@@ -30,7 +30,7 @@ class Player : public QDialog, public Person {
     Ui::Player *ui;
     int         bonus;
 
-    void check_levelup();
+    void check_levelup( int question_level );
     // int get_level(QString s);
 };
 
