@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>base.qss</file>
-    </qresource>
-</RCC>
