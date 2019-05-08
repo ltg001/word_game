@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>520</width>
-    <height>364</height>
+    <height>402</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1367,8 +1367,8 @@ QTabWidget::pane:selected {
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>60</y>
+     <x>100</x>
+     <y>150</y>
      <width>291</width>
      <height>141</height>
     </rect>
@@ -1400,7 +1400,7 @@ QTabWidget::pane:selected {
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>250</y>
+     <y>300</y>
      <width>431</width>
      <height>81</height>
     </rect>
@@ -1439,9 +1439,9 @@ QTabWidget::pane:selected {
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>90</y>
-     <width>111</width>
+     <x>50</x>
+     <y>40</y>
+     <width>401</width>
      <height>91</height>
     </rect>
    </property>

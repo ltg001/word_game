@@ -14,6 +14,15 @@ login_window::login_window( QWidget *parent )
     , ui( new Ui::login_window ) {
     ui->setupUi( this );
     ui->pwd_lineEdit->setEchoMode( QLineEdit::Password );
+
+    QImage *img = new QImage;
+    if ( !img->load(
+             "C:\\Users\\Tabulator\\Desktop\\c++_oop\\final-project\\word_"
+             "game\\resource\\index.png" ) ) {
+        delete img;
+        return;
+    }
+    ui->label->setPixmap( QPixmap::fromImage( *img ) );
 }
 
 login_window::~login_window() { delete ui; }

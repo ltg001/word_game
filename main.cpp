@@ -7,6 +7,8 @@
 #include "style.h"
 #include <QApplication>
 
+#include <QFont>
+
 sql_ops *database;
 Player * player_ins;
 Setter * setter_ins;
@@ -15,11 +17,14 @@ int main( int argc, char *argv[] ) {
     player_ins = nullptr;
     setter_ins = nullptr;
 
-    QDir dir;
-    qDebug() << dir.currentPath();
-
     style::set_style();
     QApplication a( argc, argv );
+
+    QFont font;
+    font.setPointSize( 10 );
+    font.setFamily( "Microsoft YaHei" );
+    a.setFont( font );
+
     database            = new sql_ops();
     login_window *login = new login_window();
     if ( login->exec() == QDialog::Accepted ) {
