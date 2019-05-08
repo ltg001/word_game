@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>476</width>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1367,10 +1367,10 @@ QTabWidget::pane:selected {
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>60</x>
      <y>10</y>
      <width>241</width>
-     <height>131</height>
+     <height>151</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
@@ -1449,8 +1449,8 @@ QTabWidget::pane:selected {
   <widget class="QPushButton" name="ExitBtn">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>260</y>
+     <x>330</x>
+     <y>270</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -1462,8 +1462,8 @@ QTabWidget::pane:selected {
   <widget class="QPushButton" name="question">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>260</y>
+     <x>70</x>
+     <y>270</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -1475,9 +1475,9 @@ QTabWidget::pane:selected {
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>150</y>
-     <width>341</width>
+     <x>60</x>
+     <y>180</y>
+     <width>371</width>
      <height>80</height>
     </rect>
    </property>
@@ -1503,6 +1503,32 @@ QTabWidget::pane:selected {
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="avatar">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>10</y>
+     <width>121</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="change_avatar">
+   <property name="geometry">
+    <rect>
+     <x>312</x>
+     <y>140</y>
+     <width>141</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>change avatar</string>
+   </property>
   </widget>
  </widget>
  <resources/>

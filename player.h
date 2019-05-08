@@ -26,6 +26,8 @@ class Player : public QDialog, public Person {
 
     void on_change_clicked();
 
+    void on_pushButton_clicked();
+
   private:
     Ui::Player *ui;
     int         bonus;
@@ -33,6 +35,7 @@ class Player : public QDialog, public Person {
 
     void check_levelup( int question_level );
     bool play_game();
+    void add_avatar( QString path );
     // int get_level(QString s);
 };
 

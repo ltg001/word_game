@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QDialog>
 #include <QDir>
+#include <QFileDialog>
 #include <QImage>
 #include <QList>
 #include <QListWidget>

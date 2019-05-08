@@ -27,6 +27,10 @@ sql_ops::sql_ops() {
                       "level int, "
                       "from_who varchar)" ) )
         qDebug() << "[create question_info]" << query.lastError().text();
+    if ( !query.exec( "create table if not exists avatar_info("
+                      "username varchar primary key, "
+                      "address varchar)" ) )
+        qDebug() << "[create avatar_info]" << query.lastError().text();
 }
 
 bool sql_ops::connect() {
@@ -355,6 +359,67 @@ void sql_ops::get_rank( QListWidget *player, QListWidget *setter ) {
     }
 }
 
+QString sql_ops::get_avatar( QString username ) {
+    if ( connect() ) {
+        QSqlQuery query;
+        if ( !query.exec( QString( "select * from avatar_info "
+                                   "where username='%1'" )
+                              .arg( username ) ) )
+            qDebug() << "[get_avatar]" << query.lastError().text();
+
+        qDebug() << "[get_avatar] try:"
+                 << QString( "select * from avatar_info "
+                             "where username='%1'" )
+                        .arg( username )
+                 << "[username]" << username;
+
+        if ( query.next() ) {
+            qDebug() << "[get_avatar_1]" << query.value( 1 ).toString();
+            return query.value( 1 ).toString();
+        }
+        qDebug() << "get_avatar_2_ no username";
+        return "";
+    }
+    return "";
+}
+
+void sql_ops::save_avatar( QString username, QString path ) {
+    if ( connect() ) {
+        QSqlQuery query;
+
+        query.exec( QString( "select * from avatar_info where username='%1'" )
+                        .arg( username ) );
+
+        if ( query.next() ) {
+            if ( query.exec( QString( "update avatar_info set address='%1' "
+                                      "where username='%2'" )
+                                 .arg( path )
+                                 .arg( username ) ) ) {
+                qDebug() << "[update_avatar] success"
+                         << QString( "update avatar_info set address='%1' "
+                                     "where username='%2'" )
+                                .arg( path )
+                                .arg( username );
+            } else
+                qDebug() << "[save avatar] failed" << query.lastError().text();
+        } else {
+            if ( query.exec(
+                     QString( "insert into avatar_info(username, address) "
+                              "values('%1', '%2')" )
+                         .arg( username )
+                         .arg( path ) ) ) {
+                qDebug() << "[insert avatar] success"
+                         << QString(
+                                "insert into avatar_info(username, address) "
+                                "values('%1', '%2')" )
+                                .arg( username )
+                                .arg( path );
+            } else
+                qDebug() << "[save avatar] failed" << query.lastError().text();
+        }
+    }
+}
+
 // QQueue<QPair<int, QString>> *sql_ops::get_rank() {
 //    QQueue<QPair<int, QString>> *ans = new QQueue<QPair<int, QString>>;
 //    if ( connect() ) {
@@ -373,5 +438,4 @@ void sql_ops::get_rank( QListWidget *player, QListWidget *setter ) {
 //}
 
 QString encrypt( const QString s ) { return s; }
-
 QString decrypt( const QString s ) { return s; }

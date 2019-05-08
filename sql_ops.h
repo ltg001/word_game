@@ -27,6 +27,8 @@ class sql_ops {
                        QString new_pwd );
     void    load_question_item( QListWidget *item );
     void    get_rank( QListWidget *player, QListWidget *setter );
+    QString get_avatar( QString username );
+    void    save_avatar( QString username, QString path );
 };
 
 QString encrypt( const QString s );

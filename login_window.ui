@@ -1406,10 +1406,10 @@ QTabWidget::pane:selected {
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="2">
-     <widget class="QPushButton" name="OKBtn">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="forget_pwd">
       <property name="text">
-       <string>OK</string>
+       <string>forgot password</string>
       </property>
      </widget>
     </item>
@@ -1420,17 +1420,10 @@ QTabWidget::pane:selected {
       </property>
      </widget>
     </item>
-    <item row="0" column="3">
-     <widget class="QPushButton" name="CancelBtn">
+    <item row="0" column="2">
+     <widget class="QPushButton" name="OKBtn">
       <property name="text">
-       <string>Cancel</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="forget_pwd">
-      <property name="text">
-       <string>forget pwd</string>
+       <string>OK</string>
       </property>
      </widget>
     </item>
@@ -1451,22 +1444,5 @@ QTabWidget::pane:selected {
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>CancelBtn</sender>
-   <signal>clicked()</signal>
-   <receiver>login_window</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>367</x>
-     <y>289</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>259</x>
-     <y>181</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

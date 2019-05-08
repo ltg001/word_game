@@ -73,12 +73,26 @@ bool Player::play_game() {
     return true;
 }
 
+void Player::add_avatar( QString path ) {
+    QPixmap *pixmap = new QPixmap( path );
+    pixmap->scaled( ui->avatar->size(), Qt::KeepAspectRatio );
+    ui->avatar->setScaledContents( true );
+    ui->avatar->setPixmap( *pixmap );
+}
+
 void Player::update() {
     ui->nickname_edit->setText( this->nickname );
     ui->exp_edit->setText( QString::number( this->exp ) );
     ui->level_edit->setText( QString::number( this->level ) );
     ui->username_edit->setText( this->username );
     ui->count->setText( QString::number( this->count ) );
+
+    QString avatar_path = database->get_avatar( this->username );
+    qDebug() << "[avatar_path]" << avatar_path << "[username]"
+             << this->username;
+    if ( avatar_path != "" ) {
+        add_avatar( avatar_path );
+    }
 }
 
 void Player::get_bonus() {
@@ -122,5 +136,23 @@ void Player::on_change_clicked() {
     nickname = ui->change_nickname->text();
     ui->change_nickname->clear();
     database->save_person( username, pwd, level, exp, count, nickname );
+    update();
+}
+
+void Player::on_pushButton_clicked() {
+    QFileDialog *fileDialog = new QFileDialog( this );
+    fileDialog->setWindowTitle( tr( "open Image" ) );
+    fileDialog->setDirectory( "." );
+    fileDialog->setNameFilter( tr( "Images(*.png *.jpg *.jpeg *.bmp)" ) );
+    fileDialog->setFileMode( QFileDialog::ExistingFiles );
+    fileDialog->setViewMode( QFileDialog::Detail );
+    QStringList fileNames;
+    if ( fileDialog->exec() ) {
+        fileNames = fileDialog->selectedFiles();
+    }
+    if ( fileNames.empty() ) return;
+    qDebug() << fileNames;
+    add_avatar( fileNames.front() );
+    database->save_avatar( username, fileNames.front() );
     update();
 }

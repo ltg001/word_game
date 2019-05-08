@@ -23,9 +23,12 @@ class Setter : public QDialog, public Person {
 
     void on_change_clicked();
 
+    void on_change_avatar_clicked();
+
   private:
     Ui::Setter *ui;
     void        check_levelup( int question_level );
+    void        add_avatar( QString path );
     // int get_level(QString s);
 };
 

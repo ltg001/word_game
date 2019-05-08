@@ -56,6 +56,13 @@ void Setter::update() {
     ui->exp_edit->setText( QString::number( exp ) );
     ui->level_edit->setText( QString::number( level ) );
     ui->question_num->setText( QString::number( count ) );
+
+    QString avatar_path = database->get_avatar( this->username );
+    qDebug() << "[avatar_path]" << avatar_path << "[username]"
+             << this->username;
+    if ( avatar_path != "" ) {
+        add_avatar( avatar_path );
+    }
 }
 
 void Setter::on_change_clicked() {
@@ -73,4 +80,29 @@ void Setter::check_levelup( int question_level ) {
     exp %= 2 * temp + 1;
     count += 1;
     qDebug() << "[setter] " << exp;
+}
+
+void Setter::add_avatar( QString path ) {
+    QPixmap *pixmap = new QPixmap( path );
+    pixmap->scaled( ui->avatar->size(), Qt::KeepAspectRatio );
+    ui->avatar->setScaledContents( true );
+    ui->avatar->setPixmap( *pixmap );
+}
+
+void Setter::on_change_avatar_clicked() {
+    QFileDialog *fileDialog = new QFileDialog( this );
+    fileDialog->setWindowTitle( tr( "open Image" ) );
+    fileDialog->setDirectory( "." );
+    fileDialog->setNameFilter( tr( "Images(*.png *.jpg *.jpeg *.bmp)" ) );
+    fileDialog->setFileMode( QFileDialog::ExistingFiles );
+    fileDialog->setViewMode( QFileDialog::Detail );
+    QStringList fileNames;
+    if ( fileDialog->exec() ) {
+        fileNames = fileDialog->selectedFiles();
+    }
+    if ( fileNames.empty() ) return;
+    qDebug() << fileNames;
+    add_avatar( fileNames.front() );
+    database->save_avatar( username, fileNames.front() );
+    update();
 }
