@@ -46,7 +46,8 @@ HEADERS += \
     view_all_question.h \
     login_window.h \
     register_window.h \
-    reset_pwd.h
+    reset_pwd.h \
+    style.h
 
 FORMS += \
         mainwindow.ui \
@@ -57,4 +58,8 @@ FORMS += \
     login_window.ui \
     register_window.ui \
     reset_pwd.ui
+
+RESOURCES += \
+    qdarkstyle/style.qrc
+
 

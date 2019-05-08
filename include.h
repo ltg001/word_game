@@ -1,9 +1,11 @@
 #ifndef INCLUDE_H
 #define INCLUDE_H
 
+#include "QFile"
 #include <QApplication>
 #include <QDebug>
 #include <QDialog>
+#include <QDir>
 #include <QList>
 #include <QListWidget>
 #include <QListWidgetItem>
