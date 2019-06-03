@@ -12,3 +12,5 @@ personal c++ OOP design
 
 final project 中 word_game 的为版本二  
 Json_rpc 为版本三
+
+qt 版本为 5.11 编译器使用 msvc2017
